@@ -1,0 +1,30 @@
+description: >
+  This command creates a changelog file from a given Issues file and saves it in the path given in
+  changelog_file parameter. The issues will be sorted into 3 different blocks enhancements, bugs
+  and others. If the flavor parameter is given, only issues with the flavor label will be added
+  to the enhancements and bugs block. Issues without flavor will be added to the others block.
+parameters:
+  issues_file:
+    description: >
+      File containing Issues title, labels and contributors previously created with the command
+      load_issues
+    type: env_var_name
+    default: ISSUES_FILE
+  changelog_file:
+    description: >
+      Changelog destination file
+    type: env_var_name
+    default: CHANGELOG_FILE
+  extra_steps:
+    description: >
+      Extra steps that will run at the beginning of the command
+    type: steps
+    default: []
+steps:
+  - steps: << parameters.extra_steps >>
+  - run:
+      name: Generate changelog file
+      command: <<include(scripts/changelog/multiplatform_changelog_generator.sh)>>
+      environment:
+        ISSUES: <<parameters.issues_file>>
+        CHANGELOG: <<parameters.changelog_file>>

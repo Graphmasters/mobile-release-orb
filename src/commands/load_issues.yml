@@ -1,0 +1,32 @@
+description: >
+  Load issues data (Title, labels and contributors) from github based on commits since last tag
+parameters:
+  issues_file:
+    description: >
+      Issues destination file
+    type: env_var_name
+    default: ISSUES_FILE
+  github_token:
+    description: >
+      Github Token
+    type: env_var_name
+    default: GITHUB_TOKEN
+  tag:
+    description: >
+      Github tag from which the issues will be extracted
+    type: env_var_name
+    default: TAG
+  extra_steps:
+    description: >
+      Extra steps that will run at the beginning of the command
+    type: steps
+    default: []
+steps:
+  - steps: << parameters.extra_steps >>
+  - run:
+      name: Load issues
+      command: <<include(scripts/load_issues_since_last_tag.sh)>>
+      environment:
+        DESTINATION_FILE: <<parameters.issues_file>>
+        TOKEN: <<parameters.github_token>>
+        GITHUB_TAG: <<parameters.tag>>

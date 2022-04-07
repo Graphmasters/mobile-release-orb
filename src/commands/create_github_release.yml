@@ -1,0 +1,38 @@
+description: >
+  Create a github release containing the release tag, release version and changelog if provided
+parameters:
+  changelog_file:
+    description: >
+      File containing changelogs created with the command create_changelog
+    type: env_var_name
+    default: CHANGELOG_FILE
+  version_file:
+    description: >
+      File containing release version created with the command update_release_version
+    type: env_var_name
+    default: VERSION_FILE
+  github_token:
+    description: >
+      Github token
+    type: env_var_name
+    default: GITHUB_TOKEN
+  tag:
+    description: >
+      Release tag
+    type: env_var_name
+    default: TAG
+  extra_steps:
+    description: >
+      Extra steps that will run at the beginning of the command
+    type: steps
+    default: []
+steps:
+  - steps: << parameters.extra_steps >>
+  - run:
+      name: Generate Github Release
+      command: <<include(scripts/create_github_release.sh)>>
+      environment:
+        CHANGELOG: <<parameters.changelog_file>>
+        VERSION: <<parameters.version_file>>
+        TOKEN: <<parameters.github_token>>
+        GITHUB_TAG: <<parameters.tag>>

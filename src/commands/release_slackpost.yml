@@ -1,0 +1,44 @@
+description: >
+  Post a slack message containing changelogs and (Release , Playstore ... ) links in the specified
+  Slack Channel
+parameters:
+  slack_channel:
+    description: >
+      Slack Channel
+    type: env_var_name
+    default: SLACK_CHANNEL
+  slack_webhook_url:
+    description: >
+      Slack webhook url
+    type: env_var_name
+  changelog_file:
+    description: >
+      File containing Changelogs created with the command create_changelog
+    type: env_var_name
+    default: CHANGELOG_FILE
+  version_file:
+    description: >
+      File containing Release version created with the command update_release_version
+    type: env_var_name
+    default: VERSION_FILE
+  icon:
+    description: >
+      Slack Icon
+    type: string
+    default: ""
+  extra_steps:
+    description: >
+      Extra steps that will run at the beginning of the command
+    type: steps
+    default: []
+steps:
+  - steps: << parameters.extra_steps >>
+  - run:
+      name: Release slack post
+      command: <<include(scripts/slack/multiplatform_slackpost_changelog.sh)>>
+      environment:
+        CHANGELOG: <<parameters.changelog_file>>
+        SLACK_WEBHOOK_URL: <<parameters.slack_webhook_url>>
+        VERSION: <<parameters.version_file>>
+        CHANNEL: <<parameters.slack_channel>>
+        ICON: <<parameters.icon>>

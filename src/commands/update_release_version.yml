@@ -1,0 +1,37 @@
+description: >
+  Update Release version number based on issue labels.
+  * if the issues file contains major label the major number will be incremented (1.0.0 -> 2.0.0)
+  * if the issues file contains minor label the minor number will be incremented (1.0.0 -> 1.1.0)
+  * if the issues file doesn't contain a major or minor label. path number will be incremented
+  (1.0.0 -> 1.0.1)
+parameters:
+  issues_file:
+    description: >
+      File containing Issues title, labels and contributors previously created with the command
+      load_issues
+    type: env_var_name
+    default: ISSUES_FILE
+  version_file:
+    description: >
+      Version destination file
+    type: env_var_name
+    default: VERSION_FILE
+  tag:
+    description: >
+      Release tag for example (release-navigation or multiplatform-navigation)
+    type: env_var_name
+    default: TAG
+  extra_steps:
+    description: >
+      Extra steps that will run at the beginning of the command
+    type: steps
+    default: []
+steps:
+  - steps: << parameters.extra_steps >>
+  - run:
+      name: Update release version
+      command: <<include(scripts/versioning/update_release_version.sh)>>
+      environment:
+        ISSUES: <<parameters.issues_file>>
+        VERSION: <<parameters.version_file>>
+        GITHUB_TAG: <<parameters.tag>>

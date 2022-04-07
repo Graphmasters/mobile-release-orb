@@ -1,0 +1,57 @@
+version: 2.1
+
+orbs:
+  mobile-release: graphmasters/mobile-release@<<pipeline.parameters.dev-orb-version>>
+  orb-tools: circleci/orb-tools@10.0
+  bats: circleci/bats@1.0
+  shellcheck: circleci/shellcheck@2.0
+
+# Pipeline Parameters
+## These parameters are used internally by orb-tools. Skip to the Jobs section.
+parameters:
+  run-integration-tests:
+    description: An internal flag to prevent integration test from running before a development version has been created.
+    type: boolean
+    default: false
+  dev-orb-version:
+    type: string
+    default: "dev:alpha"
+
+workflows:
+  test-pack:
+    unless: << pipeline.parameters.run-integration-tests >>
+    jobs:
+      - orb-tools/lint # Lint Yaml files
+      - orb-tools/pack # Pack orb source
+      - shellcheck/check:
+          dir: ./src/scripts
+          exclude: SC2148
+      - bats/run:
+          path: ./src/tests
+      - orb-tools/publish-dev:
+          orb-name: graphmasters/mobile-release
+          requires:
+            - orb-tools/lint
+            - orb-tools/pack
+            - shellcheck/check
+            - bats/run
+      - orb-tools/trigger-integration-tests-workflow:
+          name: trigger-integration-dev
+          requires:
+            - orb-tools/publish-dev
+
+  integration-test_deploy:
+    when: << pipeline.parameters.run-integration-tests >>
+    jobs:
+      - orb-tools/dev-promote-prod-from-commit-subject:
+          orb-name: graphmasters/mobile-release
+          publish-token-variable: CIRCLECI_CLI_TOKEN
+          add-pr-comment: false
+          fail-if-semver-not-indicated: true
+          publish-version-tag: false
+          requires:
+            - integration-test-1
+          filters:
+            branches:
+              only:
+                - master

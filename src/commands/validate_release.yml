@@ -1,0 +1,32 @@
+description: >
+  this command check if a release is valid
+parameters:
+  issues_file:
+    description: >
+      file containing issues created with the command load issues
+    type: env_var_name
+    default: ISSUES_FILE
+  circleci_api_token:
+    description: >
+      Circleci Api token
+    type: env_var_name
+    default: CIRCLECI_API_TOKEN
+  flavor_label:
+    description: >
+      Github flavor label
+    type: env_var_name
+    default: FLAVOR_LABEL
+  extra_steps:
+    description: >
+      Extra steps that will run at the beginning of the command
+    type: steps
+    default: []
+steps:
+  - steps: << parameters.extra_steps >>
+  - run:
+      name: Load issues
+      command: <<include(scripts/validate_release_with_git_label.sh)>>
+      environment:
+        ISSUES: <<parameters.issues_file>>
+        TOKEN: <<parameters.circleci_api_token>>
+        LABEL: <<parameters.flavor_label>>

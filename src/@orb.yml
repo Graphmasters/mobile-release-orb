@@ -1,0 +1,7 @@
+version: 2.1
+
+description: |
+  All current mobile release CI commands
+
+display:
+  source_url: "https://github.com/Graphmasters/mobile-release-orb"
