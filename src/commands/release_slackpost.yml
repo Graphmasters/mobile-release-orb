@@ -11,6 +11,7 @@ parameters:
     description: >
       Slack webhook url
     type: env_var_name
+    default: SLACK_WEBHOOK_URL
   changelog_file:
     description: >
       File containing Changelogs created with the command create_changelog
