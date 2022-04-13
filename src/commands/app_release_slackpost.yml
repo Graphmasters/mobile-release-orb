@@ -67,7 +67,7 @@ steps:
   - run:
       environment:
         CHANGELOG: <<parameters.changelog_file>>
-        SLACK_WEBHOOK_URL: <<parameters.slack_webhook_url>>
+        SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
         RELEASE_VERSION: <<parameters.version_file>>
         VERSION_CODE: <<parameters.version_code_file>>
         GITHUB_TAG: <<parameters.tag>>

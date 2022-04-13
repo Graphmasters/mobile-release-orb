@@ -39,7 +39,7 @@ steps:
       command: <<include(scripts/slack/multiplatform_slackpost_changelog.sh)>>
       environment:
         CHANGELOG: <<parameters.changelog_file>>
-        SLACK_WEBHOOK_URL: <<parameters.slack_webhook_url>>
+        SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
         VERSION: <<parameters.version_file>>
         CHANNEL: <<parameters.slack_channel>>
         ICON: <<parameters.icon>>
