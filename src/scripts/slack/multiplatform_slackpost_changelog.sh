@@ -5,7 +5,7 @@ checkRequirements() {
       exit 1
   fi
 
-  if [[ -z "${!SLACK_WEBHOOK_URL}" ]];
+  if [[ -z "${!SLACK_WEBHOOK}" ]];
   then
       echo "Slack webhook url must be provided"
       exit 1
@@ -63,7 +63,7 @@ slackPost() {
 
   json="{\"channel\": \"#${!CHANNEL}\", \"text\": \"*$CIRCLE_PROJECT_REPONAME* (*$releaseVersion*) released $ICON\nRelease:\n$releaseLink\n\n>>>$content\", \"username\": \"Release Info\", \"icon_emoji\": \"$ICON\"}"
 
-  curl -s --data-urlencode "payload=$json" "${!SLACK_WEBHOOK_URL}"
+  curl -s --data-urlencode "payload=$json" "${!SLACK_WEBHOOK}"
 }
 
 main() {
