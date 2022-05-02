@@ -7,6 +7,11 @@ parameters:
       Slack channel name
     type: env_var_name
     default: SLACK_CHANNEL
+  play_store_link:
+    description: >
+      Play store link
+    type: env_var_name
+    default: PLAY_STORE_LINK
   slack_webhook_url:
     description: >
       Slack webhook url
@@ -49,14 +54,9 @@ parameters:
     default: PACKAGE_NAME_ID
   user_fraction:
     description: >
-      Playstore release user fraction
+      Play store release user fraction
     type: integer
     default: 0
-  post-playstore-direct-link:
-    description: >
-      Whether to add Playstore direct link to Slack post
-    type: boolean
-    default: false
   extra_steps:
     description: >
       Extra steps that will run at the beginning of the command
@@ -68,14 +68,13 @@ steps:
       environment:
         CHANGELOG: <<parameters.changelog_file>>
         SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
+        PLAY_STORE_URL: <<parameters.play_store_link>>
         RELEASE_VERSION: <<parameters.version_file>>
-        VERSION_CODE: <<parameters.version_code_file>>
         GITHUB_TAG: <<parameters.tag>>
         CHANNEL: <<parameters.slack_channel>>
         ICON: <<parameters.icon>>
         RELEASE_STAGE: <<parameters.stage>>
         PACKAGE_NAME: <<parameters.package_name_id>>
         USER_FRACTION: <<parameters.user_fraction>>
-        POST_PLAYSTORE_DIRECT_LINK: <<parameters.post-playstore-direct-link>>
       name: Release slack post
       command: <<include(scripts/slack/nunav_slackpost_changelog.sh)>>
