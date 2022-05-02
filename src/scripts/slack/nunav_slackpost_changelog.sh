@@ -5,6 +5,8 @@ checkRequirements() {
       exit 1
   fi
 
+  echo "${!PLAY_STORE_URL}"
+
   if [[ -z "${!SLACK_WEBHOOK}" ]];
   then
       echo "Slack webhook url must be provided"
