@@ -81,7 +81,7 @@ slackPost() {
   PlayStoreLink=""
   users=""
 
-  if [[ -z "${!PLAY_STORE_URL}" ]]; then
+  if [[ -n "${!PLAY_STORE_URL}" ]]; then
     PlayStoreLink="\n\n*PlayStore directLink:*\n${!PLAY_STORE_URL}"
   fi
 
