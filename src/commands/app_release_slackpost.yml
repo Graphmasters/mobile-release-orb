@@ -27,11 +27,6 @@ parameters:
       File containing release version
     type: env_var_name
     default: VERSION_FILE
-  version_code_file:
-    description: >
-      File containing version code for Playstore release
-    type: env_var_name
-    default: VERSION_CODE_FILE
   tag:
     description: >
       Github tag name

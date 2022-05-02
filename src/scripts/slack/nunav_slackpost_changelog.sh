@@ -36,7 +36,6 @@ checkRequirements() {
   fi
 }
 
-
 formatChangelogContent() {
   local content=$1
 
