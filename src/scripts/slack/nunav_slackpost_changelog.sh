@@ -17,12 +17,6 @@ checkRequirements() {
       exit 1
   fi
 
-  if [[ -z "${!VERSION_CODE}" ]];
-  then
-      echo "Release version code file must be provided"
-      exit 1
-  fi
-
   if [[ -z "${!GITHUB_TAG}" ]];
   then
       echo "Github tag name must be provided"
@@ -41,7 +35,6 @@ checkRequirements() {
       exit 1
   fi
 }
-
 
 formatChangelogContent() {
   local content=$1
@@ -78,24 +71,18 @@ slackPost() {
   local content="\n\n>>>$1"
 
   version=$(< "${!RELEASE_VERSION}")
-  versionCode=$(< "${!VERSION_CODE}")
   ReleaseName="${!GITHUB_TAG}-$version"
 
   ReleaseLink="https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases/tag/$ReleaseName"
   WorkflowLink="https://circleci.com/workflow-run/$CIRCLE_WORKFLOW_ID"
-  PlayStoreLink=""
   users=""
-
-  if [[ ${POST_PLAYSTORE_DIRECT_LINK} ]]; then
-    PlayStoreLink="\n\n*PlayStore directLink:*\nhttps://play.google.com/apps/test/${!PACKAGE_NAME}/$versionCode"
-  fi
 
   if [[ "$USER_FRACTION" != 0  ]]; then
     content=""
     users="(*$USER_FRACTION%*)"
   fi
 
-  json="{\"channel\": \"#${!CHANNEL}\", \"text\": \"New App Version (*$version*) pushed to ${!RELEASE_STAGE} $users ${ICON}\n*Github release:*\n$ReleaseLink\n\n*Workflow:*\n$WorkflowLink $PlayStoreLink $content\", \"username\": \"Release Info\", \"icon_emoji\": \"$ICON\"}"
+  json="{\"channel\": \"#${!CHANNEL}\", \"text\": \"New App Version (*$version*) pushed to ${!RELEASE_STAGE} $users ${ICON}\n*Github release:*\n$ReleaseLink\n\n*Workflow:*\n$WorkflowLink $content\", \"username\": \"Release Info\", \"icon_emoji\": \"$ICON\"}"
   curl -s --data-urlencode "payload=$json" "${!SLACK_WEBHOOK}"
 }
 
