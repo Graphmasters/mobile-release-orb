@@ -75,14 +75,19 @@ slackPost() {
 
   ReleaseLink="https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases/tag/$ReleaseName"
   WorkflowLink="https://circleci.com/workflow-run/$CIRCLE_WORKFLOW_ID"
+  PlayStoreLink=""
   users=""
+
+  if [[ -n "${!PLAY_STORE_URL}" ]]; then
+    PlayStoreLink="\n\n*PlayStore directLink:*\n${!PLAY_STORE_URL}"
+  fi
 
   if [[ "$USER_FRACTION" != 0  ]]; then
     content=""
     users="(*$USER_FRACTION%*)"
   fi
 
-  json="{\"channel\": \"#${!CHANNEL}\", \"text\": \"New App Version (*$version*) pushed to ${!RELEASE_STAGE} $users ${ICON}\n*Github release:*\n$ReleaseLink\n\n*Workflow:*\n$WorkflowLink $content\", \"username\": \"Release Info\", \"icon_emoji\": \"$ICON\"}"
+  json="{\"channel\": \"#${!CHANNEL}\", \"text\": \"New App Version (*$version*) pushed to ${!RELEASE_STAGE} $users ${ICON}\n*Github release:*\n$ReleaseLink\n\n*Workflow:*\n$WorkflowLink $PlayStoreLink $content\", \"username\": \"Release Info\", \"icon_emoji\": \"$ICON\"}"
   curl -s --data-urlencode "payload=$json" "${!SLACK_WEBHOOK}"
 }
 
