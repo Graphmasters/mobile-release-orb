@@ -17,12 +17,6 @@ checkRequirements() {
       exit 1
   fi
 
-  if [[ -z "${!VERSION_CODE}" ]];
-  then
-      echo "Release version code file must be provided"
-      exit 1
-  fi
-
   if [[ -z "${!GITHUB_TAG}" ]];
   then
       echo "Github tag name must be provided"
@@ -41,7 +35,6 @@ checkRequirements() {
       exit 1
   fi
 }
-
 
 formatChangelogContent() {
   local content=$1
@@ -78,7 +71,6 @@ slackPost() {
   local content="\n\n>>>$1"
 
   version=$(< "${!RELEASE_VERSION}")
-  versionCode=$(< "${!VERSION_CODE}")
   ReleaseName="${!GITHUB_TAG}-$version"
 
   ReleaseLink="https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases/tag/$ReleaseName"
@@ -86,8 +78,8 @@ slackPost() {
   PlayStoreLink=""
   users=""
 
-  if [[ ${POST_PLAYSTORE_DIRECT_LINK} ]]; then
-    PlayStoreLink="\n\n*PlayStore directLink:*\nhttps://play.google.com/apps/test/${!PACKAGE_NAME}/$versionCode"
+  if [[ -n "${!PLAY_STORE_URL}" ]]; then
+    PlayStoreLink="\n\n*PlayStore directLink:*\n${!PLAY_STORE_URL}"
   fi
 
   if [[ "$USER_FRACTION" != 0  ]]; then
