@@ -17,12 +17,6 @@ checkRequirements() {
       exit 1
   fi
 
-  if [[ -z "${!VERSION_CODE}" ]];
-  then
-      echo "Release version code file must be provided"
-      exit 1
-  fi
-
   if [[ -z "${!GITHUB_TAG}" ]];
   then
       echo "Github tag name must be provided"
