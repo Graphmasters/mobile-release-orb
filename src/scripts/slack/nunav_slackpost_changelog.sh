@@ -78,8 +78,8 @@ slackPost() {
   PlayStoreLink=""
   users=""
 
-  if [[ -n "${!PLAY_STORE_URL}" ]]; then
-    PlayStoreLink="\n\n*PlayStore directLink:*\n${!PLAY_STORE_URL}"
+  if [[ -n "${!DOWNLOAD_URL}" ]]; then
+    PlayStoreLink="\n\n*Download directLink:*\n${!DOWNLOAD_URL}"
   fi
 
   if [[ "$USER_FRACTION" != 0  ]]; then

@@ -7,11 +7,11 @@ parameters:
       Slack channel name
     type: env_var_name
     default: SLACK_CHANNEL
-  play_store_link:
+  download_link:
     description: >
       Play store link
     type: env_var_name
-    default: PLAY_STORE_LINK
+    default: DOWNLOAD_LINK
   slack_webhook_url:
     description: >
       Slack webhook url
@@ -63,7 +63,7 @@ steps:
       environment:
         CHANGELOG: <<parameters.changelog_file>>
         SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
-        PLAY_STORE_URL: <<parameters.play_store_link>>
+        DOWNLOAD_URL: <<parameters.download_link>>
         RELEASE_VERSION: <<parameters.version_file>>
         GITHUB_TAG: <<parameters.tag>>
         CHANNEL: <<parameters.slack_channel>>
