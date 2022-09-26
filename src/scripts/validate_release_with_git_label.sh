@@ -28,7 +28,7 @@ function CancelWorkflow(){
   # shellcheck disable=SC2124
   outputMessage=$@
 
-  cancelBuildUrl="https://circleci.com/api/v2/workflow/$CIRCLE_BUILD_NUM/cancel"
+  cancelBuildUrl="https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel"
   cancelStatus=$(curl -X POST "${cancelBuildUrl} --header 'Circle-Token:${!TOKEN}'"  | jq -r '.message' )
 
   echo "${outputMessage}"
