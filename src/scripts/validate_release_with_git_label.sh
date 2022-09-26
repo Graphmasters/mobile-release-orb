@@ -29,7 +29,7 @@ function CancelWorkflow(){
   outputMessage=$@
 
   cancelBuildUrl="https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel"
-  cancelStatus=$(curl -X POST "${cancelBuildUrl} --header 'Circle-Token:${!TOKEN}'")
+  cancelStatus=$(curl -X POST "${cancelBuildUrl}" --header "Circle-Token:${!TOKEN}")
 
   echo "${outputMessage}"
   echo "Workflow ${cancelStatus}"
