@@ -28,8 +28,8 @@ function CancelWorkflow(){
   # shellcheck disable=SC2124
   outputMessage=$@
 
-  cancelBuildUrl="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/cancel?circle-token=${!TOKEN}"
-  cancelStatus=$(curl -X POST "${cancelBuildUrl}" | jq -r '.status' )
+  cancelBuildUrl="https://circleci.com/api/v2/workflow/$CIRCLE_BUILD_NUM/cancel"
+  cancelStatus=$(curl -X POST "${cancelBuildUrl} --header 'Circle-Token:${!TOKEN}'"  | jq -r '.message' )
 
   echo "${outputMessage}"
   echo "Workflow ${cancelStatus}"
