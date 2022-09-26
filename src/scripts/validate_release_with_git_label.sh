@@ -35,7 +35,6 @@ function CancelWorkflow(){
   echo "Workflow ${cancelStatus}"
 }
 
-
 # if a issues from the issues file contains the flavo label passed in the parameter
 # continue workflow else Cancel Workflow
 processIssues(){
