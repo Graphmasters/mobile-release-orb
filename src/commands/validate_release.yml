@@ -24,7 +24,7 @@ parameters:
 steps:
   - steps: << parameters.extra_steps >>
   - run:
-      name: Load issues
+      name: Validate release
       command: <<include(scripts/validate_release_with_git_label.sh)>>
       environment:
         ISSUES: <<parameters.issues_file>>
