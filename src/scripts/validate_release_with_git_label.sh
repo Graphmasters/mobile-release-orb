@@ -28,13 +28,12 @@ function CancelWorkflow(){
   # shellcheck disable=SC2124
   outputMessage=$@
 
-  cancelBuildUrl="https://circleci.com/api/v1.1/project/github/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/$CIRCLE_BUILD_NUM/cancel?circle-token=${!TOKEN}"
-  cancelStatus=$(curl -X POST "${cancelBuildUrl}" | jq -r '.status' )
+  cancelBuildUrl="https://circleci.com/api/v2/workflow/$CIRCLE_WORKFLOW_ID/cancel"
+  cancelStatus=$(curl -X POST "${cancelBuildUrl}" --header "Circle-Token:${!TOKEN}")
 
   echo "${outputMessage}"
   echo "Workflow ${cancelStatus}"
 }
-
 
 # if a issues from the issues file contains the flavo label passed in the parameter
 # continue workflow else Cancel Workflow
