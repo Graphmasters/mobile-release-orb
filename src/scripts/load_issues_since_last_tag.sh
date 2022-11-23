@@ -100,7 +100,7 @@ saveIssues()
 
 main() {
   checkRequirements
-  lastUsedTag=$(git tag -l "${!GITHUB_TAG}-*" --sort=-creatordate  | head -n 1 || true )
+  lastUsedTag=$(git tag -l "${!GITHUB_TAG}-*" --sort -version:refname | head -n 1 || true )
   echo "Last used Tag : $lastUsedTag"
   issuesNumbers=$(getIssuesNumberSinceTag "$lastUsedTag" )
   declare -a Issues

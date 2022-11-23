@@ -26,7 +26,7 @@ checkRequirements() {
 
 getLastVersion (){
   # Extract release version from the last created tag
-  lastUsedTag=$(git tag -l "${!GITHUB_TAG}" --sort=-creatordate  | head -n 1)
+  lastUsedTag=$(git tag -l "${!GITHUB_TAG}-*" --sort -version:refname  | head -n 1)
   releaseVersion=$(echo "${lastUsedTag}" | rev | cut -d'-' -f 1 | rev )
   echo "${releaseVersion-"0.0.1"}"
 }
