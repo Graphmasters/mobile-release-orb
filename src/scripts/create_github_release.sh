@@ -48,7 +48,7 @@ createRelease(){
   releaseName=$1
   content=$2
 
-  body=$(printf '{"tag_name": "%s","target_commitish": "master","name": "%s","body": "%s","draft": false,"prerelease": false}' "$releaseName" "$releaseName" "$content")
+  body=$(printf '{"tag_name": "%s","target_commitish": "%s","name": "%s","body": "%s","draft": false,"prerelease": false}' "$releaseName" "$CIRCLE_BRANCH" "$releaseName" "$content")
   createReleaseUrl="https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases"
   response=$(curl -Ss -u "${!TOKEN}:" -d "$body" "$createReleaseUrl")
 
