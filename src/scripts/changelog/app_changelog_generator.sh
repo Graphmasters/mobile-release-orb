@@ -42,6 +42,7 @@ sortIssues() {
         -z $(echo "${labels}" |  grep -i "nunav bus" )   && \
         -z $(echo "${labels}" |  grep -i "nunav courier" )  && \
         -z $(echo "${labels}" |  grep -i "nunav truck" )  && \
+        -z $(echo "${labels}" |  grep -i "mpf" )  && \
         -z $(echo "${labels}" |  grep -i "nunav cargobike" ) \
      ]]
     then
