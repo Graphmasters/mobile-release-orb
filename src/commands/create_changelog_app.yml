@@ -3,6 +3,11 @@ description: >
   changelog_file parameter. The issues will be sorted into 3 different blocks enhancements, bugs
   and others.
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   issues_file:
     description: >
       File containing Issues title, labels and contributors previously created with the command
@@ -19,17 +24,12 @@ parameters:
       The label with which the changelog will be sorted
     type: env_var_name
     default: FLAVOR_LABEL
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
         DESTINATION_FILE: <<parameters.changelog_file>>
         FLAVOR: <<parameters.flavor_label>>
       name: Generate Changelog file
-      command: <<include(scripts/changelog/app_changelog_generator.sh)>>
+      command: ./${!SCRIPT_PATH}/changelog/app_changelog_generator.sh ${!ISSUES} ${!DESTINATION_FILE} ${!FLAVOR}

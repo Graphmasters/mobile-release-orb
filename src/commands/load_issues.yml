@@ -4,8 +4,8 @@ parameters:
   path:
     description: >
       scripts destination path
-    type: string
-    default: ""
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   issues_file:
     description: >
       Issues destination file
@@ -24,8 +24,9 @@ parameters:
 steps:
   - run:
       name: Load issues
-      command: ./<<parameters.path>>/load_issues_since_last_tag.sh  ${!DESTINATION_FILE}  ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!GITHUB_TAG}
+      command: ./${!SCRIPT_PATH}/load_issues_since_last_tag.sh  ${!DESTINATION_FILE}  ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!GITHUB_TAG}
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         DESTINATION_FILE: <<parameters.issues_file>>
         TOKEN: <<parameters.github_token>>
         GITHUB_TAG: <<parameters.tag>>

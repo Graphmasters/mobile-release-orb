@@ -1,6 +1,11 @@
 description: >
   Update Release status in issues
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   issues_file:
     description: >
       file containing issues created with the command load issues
@@ -21,17 +26,12 @@ parameters:
       Nunav flavor
     type: env_var_name
     default: FLAVOR
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       name: Load issues
-      command: <<include(scripts/update_issue_deployment_status_comment.sh)>>
+      command: ./${!SCRIPT_PATH}/update_issue_deployment_status_comment.sh ${!ISSUES} ${!VERSION} ${!TOKEN} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!APP_FLAVOR}
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
         VERSION: <<parameters.version_file>>
         TOKEN: <<parameters.github_token>>

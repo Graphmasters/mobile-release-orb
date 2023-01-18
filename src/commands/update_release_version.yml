@@ -5,6 +5,11 @@ description: >
   * if the issues file doesn't contain a major or minor label. path number will be incremented
   (1.0.0 -> 1.0.1)
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   issues_file:
     description: >
       File containing Issues title, labels and contributors previously created with the command
@@ -21,17 +26,12 @@ parameters:
       Release tag for example (release-navigation or multiplatform-navigation)
     type: env_var_name
     default: TAG
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       name: Update release version
-      command: <<include(scripts/versioning/update_release_version.sh)>>
+      command: ./${!SCRIPT_PATH}/changelog/update_release_version.sh ${!ISSUES} ${!VERSION} ${!GITHUB_TAG}
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
         VERSION: <<parameters.version_file>>
         GITHUB_TAG: <<parameters.tag>>

@@ -1,6 +1,11 @@
 description: >
   this command check if a release is valid
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   issues_file:
     description: >
       file containing issues created with the command load issues
@@ -16,17 +21,12 @@ parameters:
       Github flavor label
     type: env_var_name
     default: FLAVOR_LABEL
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       name: Validate release
-      command: <<include(scripts/validate_release_with_git_label.sh)>>
+      command: ./${!SCRIPT_PATH}/mobile-deployment-scripts/validate_release_with_git_label.sh ${!ISSUES} ${!LABEL}
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
         TOKEN: <<parameters.circleci_api_token>>
         LABEL: <<parameters.flavor_label>>
