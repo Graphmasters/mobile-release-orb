@@ -1,6 +1,11 @@
 description: >
   Load issues data (Title, labels and contributors) from github based on commits since last tag
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: string
+    default: ""
   issues_file:
     description: >
       Issues destination file
@@ -16,16 +21,10 @@ parameters:
       Github tag from which the issues will be extracted
     type: env_var_name
     default: TAG
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       name: Load issues
-      command: <<include(scripts/load_issues_since_last_tag.sh)>>
+      command: ./<<parameters.path>>/load_issues_since_last_tag.sh  ${!DESTINATION_FILE}  ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!GITHUB_TAG}
       environment:
         DESTINATION_FILE: <<parameters.issues_file>>
         TOKEN: <<parameters.github_token>>
