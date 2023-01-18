@@ -23,6 +23,9 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
+      - shellcheck/check:
+          dir: ./src/scripts
+          exclude: SC2148
       - orb-tools/publish-dev:
           orb-name: graphmasters/mobile-release
           requires:
