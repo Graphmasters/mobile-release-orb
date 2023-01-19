@@ -40,12 +40,11 @@ parameters:
 steps:
   - run:
       name: Release slack post
-      command: ./${!SCRIPT_PATH}/slack/multiplatform_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!CHANGELOG} ${!VERSION} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!ICON}
+      command: ./${!SCRIPT_PATH}/slack/multiplatform_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!CHANGELOG} ${!VERSION} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" <<parameters.icon>>
       environment:
         SCRIPT_PATH: <<parameters.path>>
         CHANGELOG: <<parameters.changelog_file>>
         SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
         VERSION: <<parameters.version_file>>
         CHANNEL: <<parameters.slack_channel>>
-        ICON: <<parameters.icon>>
         GITHUB_TAG: <<parameters.tag>>
