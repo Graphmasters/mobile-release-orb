@@ -13,4 +13,4 @@ steps:
       name: Setup deployment scripts
       command: |
         git clone https://github.com/Graphmasters/mobile-deployment-scripts.git
-        mv mobile-deployment-scripts ${!SCRIPT_PATH}/mobile-deployment-scripts
+        mv mobile-deployment-scripts ${!SCRIPT_PATH}
