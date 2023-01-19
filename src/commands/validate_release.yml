@@ -24,7 +24,7 @@ parameters:
 steps:
   - run:
       name: Validate release
-      command: export VALIDATION_RESULT=$(./${!SCRIPT_PATH}/mobile-deployment-scripts/validate_release_with_git_label.sh ${!ISSUES} ${!LABEL})
+      command: export VALIDATION_RESULT=$(./${!SCRIPT_PATH}/validate_release_with_git_label.sh ${!ISSUES} ${!LABEL})
       environment:
         SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
