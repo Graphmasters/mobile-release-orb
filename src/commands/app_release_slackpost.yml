@@ -2,6 +2,11 @@ description: >
   Post a slack message containing changelogs and (Release , Playstore ... ) links in the specified
   Slack Channel
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   slack_channel:
     description: >
       Slack channel name
@@ -52,24 +57,17 @@ parameters:
       Play store release user fraction
     type: integer
     default: 0
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: [ ]
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         CHANGELOG: <<parameters.changelog_file>>
         SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
         DOWNLOAD_URL: <<parameters.download_link>>
         RELEASE_VERSION: <<parameters.version_file>>
         GITHUB_TAG: <<parameters.tag>>
         CHANNEL: <<parameters.slack_channel>>
-        ICON: <<parameters.icon>>
         RELEASE_STAGE: <<parameters.stage>>
         PACKAGE_NAME: <<parameters.package_name_id>>
-        USER_FRACTION: <<parameters.user_fraction>>
       name: Release slack post
-      command: <<include(scripts/slack/nunav_slackpost_changelog.sh)>>
+      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!RELEASE_VERSION} ${!CHANGELOG} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!PACKAGE_NAME} ${!RELEASE_STAGE} <<parameters.icon>> ${!DOWNLOAD_URL} $CIRCLE_WORKFLOW_ID  <<parameters.user_fraction>>

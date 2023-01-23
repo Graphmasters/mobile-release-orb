@@ -1,0 +1,16 @@
+description: >
+  Clone mobile-deployment-scripts repository and move script top the given path
+parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
+steps:
+  - run:
+      environment:
+        SCRIPT_PATH: <<parameters.path>>
+      name: Setup deployment scripts
+      command: |
+        git clone https://github.com/Graphmasters/mobile-deployment-scripts.git
+        mv mobile-deployment-scripts ${!SCRIPT_PATH}
