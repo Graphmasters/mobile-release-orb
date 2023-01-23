@@ -69,6 +69,5 @@ steps:
         CHANNEL: <<parameters.slack_channel>>
         RELEASE_STAGE: <<parameters.stage>>
         PACKAGE_NAME: <<parameters.package_name_id>>
-        USER_FRACTION: <<parameters.user_fraction>>
       name: Release slack post
-      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!RELEASE_VERSION} ${!CHANGELOG} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!PACKAGE_NAME} ${!RELEASE_STAGE} <<parameters.icon>> ${!USER_FRACTION} ${!DOWNLOAD_URL} $CIRCLE_WORKFLOW_ID
+      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!RELEASE_VERSION} ${!CHANGELOG} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!PACKAGE_NAME} ${!RELEASE_STAGE} <<parameters.icon>> ${!DOWNLOAD_URL} $CIRCLE_WORKFLOW_ID  <<parameters.user_fraction>>
