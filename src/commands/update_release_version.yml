@@ -29,7 +29,7 @@ parameters:
 steps:
   - run:
       name: Update release version
-      command: ./${!SCRIPT_PATH}/changelog/update_release_version.sh ${!ISSUES} ${!VERSION} ${!GITHUB_TAG}
+      command: ./${!SCRIPT_PATH}/versioning/update_release_version.sh ${!ISSUES} ${!VERSION} ${!GITHUB_TAG}
       environment:
         SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
