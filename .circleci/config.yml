@@ -25,6 +25,7 @@ workflows:
       - orb-tools/pack # Pack orb source
       - orb-tools/publish-dev:
           orb-name: graphmasters/mobile-release
+          circleci-token: CIRCLECI_CLI_TOKEN
           requires:
             - orb-tools/lint
             - orb-tools/pack
