@@ -31,7 +31,7 @@ workflows:
             - orb-tools/pack
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger-integration-dev
-          publish-token-variable: CIRCLECI_CLI_TOKEN
+          token-variable: CIRCLECI_CLI_TOKEN
           requires:
             - orb-tools/publish-dev
 
