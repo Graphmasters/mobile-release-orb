@@ -57,6 +57,9 @@ parameters:
       Play store release user fraction
     type: integer
     default: 0
+  show_splunk_link:
+    type: boolean
+    default: false
 steps:
   - run:
       environment:
@@ -70,4 +73,4 @@ steps:
         RELEASE_STAGE: <<parameters.stage>>
         PACKAGE_NAME: <<parameters.package_name_id>>
       name: Release slack post
-      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!RELEASE_VERSION} ${!CHANGELOG} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!PACKAGE_NAME} ${!RELEASE_STAGE} <<parameters.icon>> ${!DOWNLOAD_URL} $CIRCLE_WORKFLOW_ID  <<parameters.user_fraction>>
+      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!RELEASE_VERSION} ${!CHANGELOG} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!PACKAGE_NAME} ${!RELEASE_STAGE} <<parameters.icon>> ${!DOWNLOAD_URL} $CIRCLE_WORKFLOW_ID  <<parameters.user_fraction>> <<parameters.show_splunk_link>>
