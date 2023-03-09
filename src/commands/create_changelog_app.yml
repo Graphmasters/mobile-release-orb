@@ -32,4 +32,4 @@ steps:
         DESTINATION_FILE: <<parameters.changelog_file>>
         FLAVOR: <<parameters.flavor_label>>
       name: Generate Changelog file
-      command: ./${!SCRIPT_PATH}/changelog/app_changelog_generator.sh ${!ISSUES} ${!DESTINATION_FILE} ${!FLAVOR}
+      command: ./${!SCRIPT_PATH}/changelog/app_changelog_generator.sh issues_file="${!ISSUES}" changelog_file="${!DESTINATION_FILE}" flavor="${!FLAVOR}"

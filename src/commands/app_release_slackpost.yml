@@ -73,4 +73,4 @@ steps:
         RELEASE_STAGE: <<parameters.stage>>
         PACKAGE_NAME: <<parameters.package_name_id>>
       name: Release slack post
-      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh ${!CHANNEL} ${!SLACK_WEBHOOK} ${!RELEASE_VERSION} ${!CHANGELOG} ${!GITHUB_TAG} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!PACKAGE_NAME} ${!RELEASE_STAGE} <<parameters.icon>> ${!DOWNLOAD_URL} $CIRCLE_WORKFLOW_ID  <<parameters.user_fraction>> <<parameters.show_splunk_link>>
+      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh slack_channel="${!CHANNEL}" slack_webhook="${!SLACK_WEBHOOK}" version_file="${!RELEASE_VERSION}" changelog_file="${!CHANGELOG}" github_tag="${!GITHUB_TAG}" github_repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" package_name="${!PACKAGE_NAME}" stage="${!RELEASE_STAGE}" show_splunk_link="<<parameters.show_splunk_link>>" icon="<<parameters.icon>>" user_fraction="<<parameters.user_fraction>>" ci_workflow_id="$CIRCLE_WORKFLOW_ID" download_url="${!DOWNLOAD_URL}"

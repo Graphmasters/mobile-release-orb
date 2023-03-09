@@ -34,7 +34,7 @@ parameters:
 steps:
   - run:
       name: Generate Github Release
-      command: ./${!SCRIPT_PATH}/generate_github_release.sh ${!CHANGELOG} ${!GITHUB_TAG} ${!VERSION} ${!TOKEN} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" <<parameters.target_branch>>
+      command: ./${!SCRIPT_PATH}/generate_github_release.sh changelog_file="${!CHANGELOG}" tag="${!GITHUB_TAG}" version_file="${!VERSION}" github_token="${!TOKEN}" github_repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" github_branch="<<parameters.target_branch>>"
       environment:
         SCRIPT_PATH: <<parameters.path>>
         CHANGELOG: <<parameters.changelog_file>>
