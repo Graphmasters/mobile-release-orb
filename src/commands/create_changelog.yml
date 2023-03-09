@@ -23,7 +23,7 @@ parameters:
 steps:
   - run:
       name: Generate changelog file
-      command: ./${!SCRIPT_PATH}/changelog/multiplatform_changelog_generator.sh ${!ISSUES} ${!CHANGELOG}
+      command: ./${!SCRIPT_PATH}/changelog/multiplatform_changelog_generator.sh issues_file="${!ISSUES}" changelog_file="${!CHANGELOG}"
       environment:
         SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>

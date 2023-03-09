@@ -24,7 +24,7 @@ parameters:
 steps:
   - run:
       name: Load issues
-      command: ./${!SCRIPT_PATH}/load_issues_since_last_tag.sh  ${!DESTINATION_FILE}  ${!TOKEN} "$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" ${!GITHUB_TAG}
+      command: ./${!SCRIPT_PATH}/load_issues_since_last_tag.sh  issues_file="${!DESTINATION_FILE}"  github_token="${!TOKEN}" github_repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" tag="${!GITHUB_TAG}"
       environment:
         SCRIPT_PATH: <<parameters.path>>
         DESTINATION_FILE: <<parameters.issues_file>>

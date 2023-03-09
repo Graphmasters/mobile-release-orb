@@ -24,7 +24,7 @@ parameters:
 steps:
   - run:
       name: Validate release
-      command: echo "export VALIDATION_RESULT=$(./${!SCRIPT_PATH}/validate_release_with_git_label.sh ${!ISSUES} ${!LABEL})"  >> $BASH_ENV
+      command: echo "export VALIDATION_RESULT=$(./"${!SCRIPT_PATH}"/validate_release_with_git_label.sh issues_file="${!ISSUES}" flavor_label="${!LABEL}")"  >> $BASH_ENV
       environment:
         SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
