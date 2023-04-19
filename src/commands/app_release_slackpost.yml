@@ -32,6 +32,11 @@ parameters:
       File containing release version
     type: env_var_name
     default: VERSION_FILE
+  version_code_file:
+    description: >
+      File containing version code
+    type: env_var_name
+    default: VERSION_CODE_FILE
   tag:
     description: >
       Github tag name
@@ -68,9 +73,10 @@ steps:
         SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
         DOWNLOAD_URL: <<parameters.download_link>>
         RELEASE_VERSION: <<parameters.version_file>>
+        VERSION_CODE: <<parameters.version_code_file>>
         GITHUB_TAG: <<parameters.tag>>
         CHANNEL: <<parameters.slack_channel>>
         RELEASE_STAGE: <<parameters.stage>>
         PACKAGE_NAME: <<parameters.package_name_id>>
       name: Release slack post
-      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh slack_channel="${!CHANNEL}" slack_webhook="${!SLACK_WEBHOOK}" version_file="${!RELEASE_VERSION}" changelog_file="${!CHANGELOG}" github_tag="${!GITHUB_TAG}" github_repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" package_name="${!PACKAGE_NAME}" stage="${!RELEASE_STAGE}" show_splunk_link="<<parameters.show_splunk_link>>" icon="<<parameters.icon>>" user_fraction="<<parameters.user_fraction>>" ci_workflow_id="$CIRCLE_WORKFLOW_ID" download_url="${!DOWNLOAD_URL}"
+      command: ./${!SCRIPT_PATH}/slack/nunav_slackpost_changelog.sh slack_channel="${!CHANNEL}" slack_webhook="${!SLACK_WEBHOOK}" version_file="${!RELEASE_VERSION}" changelog_file="${!CHANGELOG}" github_tag="${!GITHUB_TAG}" github_repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" package_name="${!PACKAGE_NAME}" stage="${!RELEASE_STAGE}" show_splunk_link="<<parameters.show_splunk_link>>" icon="<<parameters.icon>>" user_fraction="<<parameters.user_fraction>>" ci_workflow_id="$CIRCLE_WORKFLOW_ID" download_url="${!DOWNLOAD_URL}" version_code_file="$VERSION_CODE"
