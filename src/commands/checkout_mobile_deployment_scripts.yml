@@ -12,5 +12,5 @@ steps:
         SCRIPT_PATH: <<parameters.path>>
       name: Setup deployment scripts
       command: |
-        git clone https://github.com/Graphmasters/mobile-deployment-scripts.git
+        git clone --depth 1 --branch v1 https://github.com/Graphmasters/mobile-deployment-scripts.git
         mv mobile-deployment-scripts ${!SCRIPT_PATH}
