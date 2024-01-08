@@ -1,6 +1,11 @@
 description: >
   Create a github release containing the release tag, release version and changelog if provided
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   changelog_file:
     description: >
       File containing changelogs created with the command create_changelog
@@ -21,17 +26,17 @@ parameters:
       Release tag
     type: env_var_name
     default: TAG
-  extra_steps:
+  target_branch:
     description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
+      Release target branch
+    type: string
+    default: ""
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       name: Generate Github Release
-      command: <<include(scripts/create_github_release.sh)>>
+      command: ./${!SCRIPT_PATH}/generate_github_release.sh changelog_file="${!CHANGELOG}" tag="${!GITHUB_TAG}" version_file="${!VERSION}" github_token="${!TOKEN}" github_repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" github_branch="<<parameters.target_branch>>"
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         CHANGELOG: <<parameters.changelog_file>>
         VERSION: <<parameters.version_file>>
         TOKEN: <<parameters.github_token>>

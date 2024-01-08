@@ -4,6 +4,11 @@ description: >
   and others. If the flavor parameter is given, only issues with the flavor label will be added
   to the enhancements and bugs block. Issues without flavor will be added to the others block.
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   issues_file:
     description: >
       File containing Issues title, labels and contributors previously created with the command
@@ -15,16 +20,11 @@ parameters:
       Changelog destination file
     type: env_var_name
     default: CHANGELOG_FILE
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       name: Generate changelog file
-      command: <<include(scripts/changelog/multiplatform_changelog_generator.sh)>>
+      command: ./${!SCRIPT_PATH}/changelog/multiplatform_changelog_generator.sh issues_file="${!ISSUES}" changelog_file="${!CHANGELOG}"
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         ISSUES: <<parameters.issues_file>>
         CHANGELOG: <<parameters.changelog_file>>

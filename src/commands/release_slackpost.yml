@@ -2,6 +2,11 @@ description: >
   Post a slack message containing changelogs and (Release , Playstore ... ) links in the specified
   Slack Channel
 parameters:
+  path:
+    description: >
+      scripts destination path
+    type: env_var_name
+    default: RELEASE_SCRIPTS_PATH
   slack_channel:
     description: >
       Slack Channel
@@ -22,24 +27,24 @@ parameters:
       File containing Release version created with the command update_release_version
     type: env_var_name
     default: VERSION_FILE
+  tag:
+    description: >
+      Github tag name
+    type: env_var_name
+    default: TAG
   icon:
     description: >
       Slack Icon
     type: string
     default: ""
-  extra_steps:
-    description: >
-      Extra steps that will run at the beginning of the command
-    type: steps
-    default: []
 steps:
-  - steps: << parameters.extra_steps >>
   - run:
       name: Release slack post
-      command: <<include(scripts/slack/multiplatform_slackpost_changelog.sh)>>
+      command: ./${!SCRIPT_PATH}/slack/multiplatform_slackpost_changelog.sh slack_channel="${!CHANNEL}" slack_webhook="${!SLACK_WEBHOOK}" changelog_file="${!CHANGELOG}" version_file="${!VERSION}" github_tag="${!GITHUB_TAG}" github_repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" icon="<<parameters.icon>>"
       environment:
+        SCRIPT_PATH: <<parameters.path>>
         CHANGELOG: <<parameters.changelog_file>>
         SLACK_WEBHOOK: <<parameters.slack_webhook_url>>
         VERSION: <<parameters.version_file>>
         CHANNEL: <<parameters.slack_channel>>
-        ICON: <<parameters.icon>>
+        GITHUB_TAG: <<parameters.tag>>

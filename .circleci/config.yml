@@ -23,20 +23,15 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
-      - shellcheck/check:
-          dir: ./src/scripts
-          exclude: SC2148
-      - bats/run:
-          path: ./src/tests
       - orb-tools/publish-dev:
           orb-name: graphmasters/mobile-release
+          publish-token-variable: CIRCLECI_CLI_TOKEN
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - shellcheck/check
-            - bats/run
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger-integration-dev
+          token-variable: CIRCLECI_CLI_TOKEN
           requires:
             - orb-tools/publish-dev
 
