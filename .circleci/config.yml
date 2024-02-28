@@ -25,13 +25,13 @@ workflows:
       - orb-tools/pack # Pack orb source
       - orb-tools/publish-dev:
           orb-name: graphmasters/mobile-release
-          publish-token-variable: TOKEN
+          publish-token-variable: CIRCLECI_CLI_TOKEN
           requires:
             - orb-tools/lint
             - orb-tools/pack
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger-integration-dev
-          token-variable: TOKEN
+          token-variable: CIRCLECI_CLI_TOKEN
           requires:
             - orb-tools/publish-dev
 
@@ -40,7 +40,7 @@ workflows:
     jobs:
       - orb-tools/dev-promote-prod-from-commit-subject:
           orb-name: graphmasters/mobile-release
-          publish-token-variable: TOKEN
+          publish-token-variable: CIRCLECI_CLI_TOKEN
           add-pr-comment: false
           fail-if-semver-not-indicated: true
           publish-version-tag: false
